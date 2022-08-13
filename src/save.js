@@ -1,34 +1,27 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
- */
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
- */
-import { useBlockProps } from '@wordpress/block-editor';
-
-/**
- * The save function defines the way in which the different attributes should
- * be combined into the final markup, which is then serialized by the block
- * editor into `post_content`.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#save
- *
- * @return {WPElement} Element to render.
- */
-export default function save() {
+import {
+	useBlockProps,
+	InnerBlocks
+} from '@wordpress/block-editor';
+export default function save( { attributes } ) {
+	const { blockID, layout } = attributes;
+	const styles = `
+		#block-${blockID} {
+			display: grid;
+			flex-wrap: wrap;
+			gap: ${layout.gap}px;
+			grid-template-columns: repeat(${layout.columns}, 1fr);
+			grid-auto-flow: row;
+		}
+	`;
 	return (
-		<p { ...useBlockProps.save() }>
-			{ __(
-				'Layout Block – hello from the saved content!',
-				'cth-layout'
-			) }
-		</p>
+		<div { ...useBlockProps.save({
+			id: `block-${blockID}`
+		}) }>
+			<style>
+				{styles}
+			</style>
+			<InnerBlocks.Content />
+		</div>
 	);
 }

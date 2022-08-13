@@ -1,38 +1,111 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
- */
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
- */
-import { useBlockProps } from '@wordpress/block-editor';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
+import {
+	Flex,
+	RangeControl,
+	PanelBody,
+	TabPanel,
+} from "@wordpress/components";
+import {
+	useBlockProps,
+	InnerBlocks,
+	InspectorControls
+} from '@wordpress/block-editor';
+import { useEffect } from "@wordpress/element";
 import './editor.scss';
-
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#edit
- *
- * @return {WPElement} Element to render.
- */
-export default function Edit() {
+import classNames from 'classnames';
+const TEMPLATE = [
+	[ 'cth-blocks/cth-column', {} ]
+];
+const ALLOWED_BLOCKS = ['cth-blocks/cth-column'];
+export default function Edit({ attributes, setAttributes, clientId }) {
+	const { blockID, layout } = attributes;
+	const onChangeColumns = (count) => {
+		const newLayout = {...layout};
+		newLayout["columns"] = count;
+		setAttributes({ layout: newLayout });
+	}
+	const onChangeGap = (newGap) => {
+		const newLayout = {...layout};
+		newLayout["gap"] = newGap;
+		setAttributes({ layout: newLayout });
+	}
+	const blockClassNames = classNames(`has-gap-${layout.gap}`, `has-columns-${layout.columns}`);
+	const styles = `
+		#block-${blockID} > .block-editor-inner-blocks > .block-editor-block-list__layout {
+			display: grid;
+			flex-wrap: wrap;
+			gap: ${layout.gap}px;
+			grid-template-columns: repeat(${layout.columns}, 1fr);
+			grid-auto-flow: row;
+		}
+	`;
+	useEffect( () => {
+    setAttributes( { blockID: clientId } );
+  }, [] );
 	return (
-		<p { ...useBlockProps() }>
-			{ __( 'Layout Block – hello from the editor!', 'cth-layout' ) }
-		</p>
+		<>
+			<InspectorControls>
+				<PanelBody title={ __( "Layout Settings", "cth-layout" ) }>
+					<TabPanel
+						className="tab"
+						activeClass="is-active"
+						onSelect={ (tabName) => console.log(tabName) }
+						initialTabName="desktop"
+						tabs={
+							[
+								{
+									name: __( "desktop", "cth-layout" ),
+									title: __( "Desktop", "cth-layout" ),
+									className: "tab-one",
+									options:
+										<>
+										<RangeControl
+											label="Columns"
+											value={ layout.columns }
+											onChange={ onChangeColumns }
+											min={ 1 }
+											max={ 12 }
+										/>
+										<RangeControl
+											label="Column Gap"
+											value={ layout.gap }
+											onChange={ onChangeGap }
+											min={ 0 }
+											max={ 300 }
+										/>
+									</>
+								},
+								{
+									name: __( "tablet", "cth-layout" ),
+									title: __( "Tablet", "cth-layout" ),
+									className: "tab-two"
+								}
+							]
+						}
+					>
+						{ ( { options, className } ) =>
+							<div className={className} style={{paddingTop:"15px"}}>
+								{options}
+							</div>
+						}
+					</TabPanel>
+				</PanelBody>
+			</InspectorControls>
+
+			<div
+				{ ...useBlockProps({
+					className: blockClassNames
+				}) }
+			>
+				<style>
+					{styles}
+				</style>
+				<InnerBlocks
+					template={TEMPLATE}
+					allowedBlocks={ ALLOWED_BLOCKS }
+					orientation="horizontal"
+				/>
+			</div>
+		</>
 	);
 }

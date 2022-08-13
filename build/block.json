@@ -8,10 +8,26 @@
   "icon": "grid-view",
   "description": "CTH Layout Block for container/columns",
   "supports": {
-    "html": false
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ]
   },
   "textdomain": "cth-layout",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+  "style": "file:./style-index.css",
+  "attributes": {
+    "blockID": {
+      "type": "string"
+    },
+    "layout": {
+      "type": "object",
+      "default": {
+        "columns": 1,
+        "gap": 0
+      }
+    }
+  }
 }
