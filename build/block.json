@@ -12,7 +12,11 @@
     "align": [
       "wide",
       "full"
-    ]
+    ],
+    "color": {
+      "background": true,
+      "gradients": false
+    }
   },
   "textdomain": "cth-layout",
   "editorScript": "file:./index.js",

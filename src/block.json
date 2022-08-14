@@ -9,7 +9,11 @@
 	"description": "CTH Layout Block for container/columns",
 	"supports": {
 		"html": false,
-		"align": ["wide", "full"]
+		"align": ["wide", "full"],
+		"color": {
+			"background": true,
+			"gradients": false
+		}
 	},
 	"textdomain": "cth-layout",
 	"editorScript": "file:./index.js",

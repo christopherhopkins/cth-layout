@@ -6,7 +6,7 @@ import {
 export default function save( { attributes } ) {
 	const { blockID, layout } = attributes;
 	const styles = `
-		#block-${blockID} {
+		#block-${blockID} > .cth-layout-inner {
 			display: grid;
 			flex-wrap: wrap;
 			gap: ${layout.gap}px;
@@ -21,7 +21,9 @@ export default function save( { attributes } ) {
 			<style>
 				{styles}
 			</style>
-			<InnerBlocks.Content />
+			<div className="cth-layout-inner">
+				<InnerBlocks.Content />
+			</div>
 		</div>
 	);
 }
