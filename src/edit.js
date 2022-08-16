@@ -12,9 +12,8 @@ import {
 } from '@wordpress/block-editor';
 import { useEffect } from "@wordpress/element";
 import './editor.scss';
-import classNames from 'classnames';
 const TEMPLATE = [
-	[ 'cth-blocks/cth-column', {} ]
+	[ 'cth-blocks/cth-column', {"width": 50} ]
 ];
 const ALLOWED_BLOCKS = ['cth-blocks/cth-column'];
 export default function Edit({ attributes, setAttributes, clientId }) {
@@ -29,14 +28,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		newLayout["gap"] = newGap;
 		setAttributes({ layout: newLayout });
 	}
-	const blockClassNames = classNames(`has-gap-${layout.gap}`, `has-columns-${layout.columns}`);
 	const styles = `
 		#block-${blockID} > .block-editor-inner-blocks > .block-editor-block-list__layout {
-			display: grid;
+			display: flex;
 			flex-wrap: wrap;
 			gap: ${layout.gap}px;
-			grid-template-columns: repeat(${layout.columns}, 1fr);
-			grid-auto-flow: row;
 		}
 	`;
 	useEffect( () => {
@@ -92,10 +88,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				</PanelBody>
 			</InspectorControls>
 
-			<div
-				{ ...useBlockProps({
-					className: blockClassNames
-				}) }
+			<Flex
+				{ ...useBlockProps() }
 			>
 				<style>
 					{styles}
@@ -105,7 +99,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					allowedBlocks={ ALLOWED_BLOCKS }
 					orientation="horizontal"
 				/>
-			</div>
+			</Flex>
 		</>
 	);
 }

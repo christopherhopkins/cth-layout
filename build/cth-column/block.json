@@ -13,5 +13,14 @@
   "parent": [
     "cth-blocks/cth-layout"
   ],
-  "textdomain": "cth-layout"
+  "textdomain": "cth-layout",
+  "attributes": {
+    "blockID": {
+      "type": "string"
+    },
+    "width": {
+      "type": "number",
+      "default": 50
+    }
+  }
 }

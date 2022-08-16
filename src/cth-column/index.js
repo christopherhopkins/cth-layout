@@ -12,7 +12,17 @@ registerBlockType( 'cth-blocks/cth-column', {
 	supports: {
 		html: false
 	},
+	attributes: {
+		blockID: {
+			type: "string"
+		},
+		width: {
+			type: "number",
+			default: 50
+		}
+	},
 	textdomain: "cth-layout",
+	usesContext: ["cth-layout/gap"],
 	edit: Edit,
 	save,
 } );
