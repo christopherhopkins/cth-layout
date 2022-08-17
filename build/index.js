@@ -46,15 +46,18 @@ function Edit(_ref) {
   }, []);
 
   const onChangeWidth = newWidth => {
-    console.log(newWidth);
+    console.log(newWidth); // const updatedWidth = newWidth - 0.01;
+
+    const updatedWidth = newWidth;
     setAttributes({
-      width: newWidth
+      width: updatedWidth
     });
   };
 
   let styles = `#block-${blockID} {`;
   styles += `
-		flex-basis: ${parseInt(width)}%;
+		max-width: calc( ${parseInt(width)}% - ( ${gap.gap}px * 0.5 ) );
+		flex-grow: 1;
 	`;
   styles += `}`;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
@@ -107,7 +110,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   textdomain: "cth-layout",
-  usesContext: ["cth-layout/gap"],
+  usesContext: ["cth-layout/layout"],
   edit: _edit__WEBPACK_IMPORTED_MODULE_1__["default"],
   save: _save__WEBPACK_IMPORTED_MODULE_2__["default"]
 });

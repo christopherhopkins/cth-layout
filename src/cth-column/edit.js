@@ -22,11 +22,14 @@ export default function Edit( { attributes, setAttributes, clientId, context } )
   }, [] );
 	const onChangeWidth = (newWidth) => {
 		console.log(newWidth);
-		setAttributes( { width: newWidth } );
+		// const updatedWidth = newWidth - 0.01;
+		const updatedWidth = newWidth;
+		setAttributes( { width: updatedWidth } );
 	};
 	let styles = `#block-${blockID} {`;
 	styles += `
-		flex-basis: ${parseInt(width)}%;
+		max-width: calc( ${parseInt(width)}% - ( ${gap.gap}px * 0.5 ) );
+		flex-grow: 1;
 	`;
 	styles += `}`;
 	return (

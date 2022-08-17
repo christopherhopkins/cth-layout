@@ -29,7 +29,9 @@
     "layout": {
       "type": "object",
       "default": {
-        "columns": 1,
+        "columns": [
+          100
+        ],
         "gap": 0
       }
     }

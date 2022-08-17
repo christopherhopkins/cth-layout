@@ -22,7 +22,7 @@ registerBlockType( 'cth-blocks/cth-column', {
 		}
 	},
 	textdomain: "cth-layout",
-	usesContext: ["cth-layout/gap"],
+	usesContext: ["cth-layout/layout"],
 	edit: Edit,
 	save,
 } );
